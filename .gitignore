@@ -1,0 +1,12 @@
+/*
+!/bootstrap/
+!/config/
+!/docs/
+!/pkg/
+!/src/
+!.env.example
+!.gitignore
+!go.mod
+!main.go
+!Makefile
+!README.md

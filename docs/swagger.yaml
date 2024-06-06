@@ -1,0 +1,184 @@
+basePath: /api/v1
+definitions:
+  dto.ProductRequest:
+    properties:
+      name:
+        type: string
+      price:
+        type: number
+    required:
+    - name
+    - price
+    type: object
+  dto.ProductResponse:
+    properties:
+      created_at:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      price:
+        type: number
+      updated_at:
+        type: string
+    required:
+    - name
+    - price
+    type: object
+  response.Response:
+    properties:
+      data: {}
+      error_data: {}
+      message:
+        type: string
+      type:
+        type: string
+    type: object
+host: localhost
+info:
+  contact:
+    email: tianrosandhy@gmail.com
+    name: TianRosandhy
+  description: Skeleton Service
+  title: Skeleton Service
+  version: 1.0.0
+paths:
+  /v1/product:
+    get:
+      description: Get list of product.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/dto.ProductResponse'
+                  type: array
+              type: object
+        "500":
+          description: internal error
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: Get list of product.
+      tags:
+      - Products
+    post:
+      description: Create new product data.
+      parameters:
+      - description: Product request
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/dto.ProductRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/dto.ProductResponse'
+              type: object
+        "500":
+          description: internal error
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: Create new product data.
+      tags:
+      - Products
+  /v1/product/{id}:
+    delete:
+      description: Get single product.
+      parameters:
+      - description: Product ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/response.Response'
+        "500":
+          description: internal error
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: Get single product.
+      tags:
+      - Products
+    get:
+      description: Get single product.
+      parameters:
+      - description: Product ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/dto.ProductResponse'
+              type: object
+        "500":
+          description: internal error
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: Get single product.
+      tags:
+      - Products
+    patch:
+      description: Update existing product data
+      parameters:
+      - description: Product request
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/dto.ProductRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/dto.ProductResponse'
+              type: object
+        "500":
+          description: internal error
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: Update existing product data
+      tags:
+      - Products
+schemes:
+- https
+securityDefinitions:
+  ApiKeyAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"
