@@ -2,7 +2,7 @@ package handler
 
 import (
 	"skeleton/bootstrap"
-	"skeleton/src/modules/product/repository"
+	"skeleton/src/modules/example/repository"
 
 	"github.com/go-playground/validator/v10"
 	"github.com/go-redis/redis"
@@ -10,20 +10,20 @@ import (
 	"github.com/spf13/viper"
 )
 
-type ProductHandler struct {
+type ExampleHandler struct {
 	Validator         *validator.Validate
 	Config            *viper.Viper
 	Log               *logrus.Logger
 	Redis             *redis.Client
-	ProductRepository *repository.ProductRepository
+	ExampleRepository *repository.ExampleRepository
 }
 
-func NewProductHandler(app *bootstrap.Application, productRepository *repository.ProductRepository) *ProductHandler {
-	return &ProductHandler{
+func NewExampleHandler(app *bootstrap.Application, exampleRepository *repository.ExampleRepository) *ExampleHandler {
+	return &ExampleHandler{
 		Validator:         app.Validator,
 		Config:            app.Config,
 		Log:               app.Log,
 		Redis:             app.Redis,
-		ProductRepository: productRepository,
+		ExampleRepository: exampleRepository,
 	}
 }

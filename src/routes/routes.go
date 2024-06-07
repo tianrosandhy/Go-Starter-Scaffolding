@@ -5,7 +5,7 @@ import (
 	"skeleton/pkg/recovery"
 	"skeleton/pkg/response"
 	"skeleton/pkg/telelogger"
-	"skeleton/src/modules/product"
+	"skeleton/src/modules/example"
 	"skeleton/src/routes/middleware"
 	"time"
 
@@ -31,7 +31,7 @@ func Handle(app *bootstrap.Application) {
 	})
 
 	// Register module handlers
-	product.NewProductModuleRegistration(app, api)
+	example.NewExampleModuleRegistration(app, api)
 }
 
 func RouteBootstrap(app *bootstrap.Application) fiber.Router {

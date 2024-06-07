@@ -18,16 +18,16 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/v1/product": {
+        "/v1/example": {
             "get": {
-                "description": "Get list of product.",
+                "description": "Get list of example.",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
-                    "Products"
+                    "Examples"
                 ],
-                "summary": "Get list of product.",
+                "summary": "Get list of example.",
                 "responses": {
                     "200": {
                         "description": "success",
@@ -42,7 +42,7 @@ const docTemplate = `{
                                         "data": {
                                             "type": "array",
                                             "items": {
-                                                "$ref": "#/definitions/dto.ProductResponse"
+                                                "$ref": "#/definitions/dto.ExampleResponse"
                                             }
                                         }
                                     }
@@ -59,22 +59,22 @@ const docTemplate = `{
                 }
             },
             "post": {
-                "description": "Create new product data.",
+                "description": "Create new example data.",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
-                    "Products"
+                    "Examples"
                 ],
-                "summary": "Create new product data.",
+                "summary": "Create new example data.",
                 "parameters": [
                     {
-                        "description": "Product request",
+                        "description": "Example request",
                         "name": "data",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dto.ProductRequest"
+                            "$ref": "#/definitions/dto.ExampleRequest"
                         }
                     }
                 ],
@@ -90,7 +90,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/dto.ProductResponse"
+                                            "$ref": "#/definitions/dto.ExampleResponse"
                                         }
                                     }
                                 }
@@ -106,20 +106,20 @@ const docTemplate = `{
                 }
             }
         },
-        "/v1/product/{id}": {
+        "/v1/example/{id}": {
             "get": {
-                "description": "Get single product.",
+                "description": "Get single example.",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
-                    "Products"
+                    "Examples"
                 ],
-                "summary": "Get single product.",
+                "summary": "Get single example.",
                 "parameters": [
                     {
                         "type": "integer",
-                        "description": "Product ID",
+                        "description": "Example ID",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -137,7 +137,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/dto.ProductResponse"
+                                            "$ref": "#/definitions/dto.ExampleResponse"
                                         }
                                     }
                                 }
@@ -153,18 +153,18 @@ const docTemplate = `{
                 }
             },
             "delete": {
-                "description": "Get single product.",
+                "description": "Get single example.",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
-                    "Products"
+                    "Examples"
                 ],
-                "summary": "Get single product.",
+                "summary": "Get single example.",
                 "parameters": [
                     {
                         "type": "integer",
-                        "description": "Product ID",
+                        "description": "Example ID",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -186,22 +186,22 @@ const docTemplate = `{
                 }
             },
             "patch": {
-                "description": "Update existing product data",
+                "description": "Update existing example data",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
-                    "Products"
+                    "Examples"
                 ],
-                "summary": "Update existing product data",
+                "summary": "Update existing example data",
                 "parameters": [
                     {
-                        "description": "Product request",
+                        "description": "Example request",
                         "name": "data",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dto.ProductRequest"
+                            "$ref": "#/definitions/dto.ExampleRequest"
                         }
                     }
                 ],
@@ -217,7 +217,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/dto.ProductResponse"
+                                            "$ref": "#/definitions/dto.ExampleResponse"
                                         }
                                     }
                                 }
@@ -235,7 +235,7 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "dto.ProductRequest": {
+        "dto.ExampleRequest": {
             "type": "object",
             "required": [
                 "name",
@@ -250,7 +250,7 @@ const docTemplate = `{
                 }
             }
         },
-        "dto.ProductResponse": {
+        "dto.ExampleResponse": {
             "type": "object",
             "required": [
                 "name",

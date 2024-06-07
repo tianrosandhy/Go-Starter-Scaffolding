@@ -1,6 +1,6 @@
 basePath: /api/v1
 definitions:
-  dto.ProductRequest:
+  dto.ExampleRequest:
     properties:
       name:
         type: string
@@ -10,7 +10,7 @@ definitions:
     - name
     - price
     type: object
-  dto.ProductResponse:
+  dto.ExampleResponse:
     properties:
       created_at:
         type: string
@@ -44,9 +44,9 @@ info:
   title: Skeleton Service
   version: 1.0.0
 paths:
-  /v1/product:
+  /v1/example:
     get:
-      description: Get list of product.
+      description: Get list of example.
       produces:
       - application/json
       responses:
@@ -58,25 +58,25 @@ paths:
             - properties:
                 data:
                   items:
-                    $ref: '#/definitions/dto.ProductResponse'
+                    $ref: '#/definitions/dto.ExampleResponse'
                   type: array
               type: object
         "500":
           description: internal error
           schema:
             $ref: '#/definitions/response.Response'
-      summary: Get list of product.
+      summary: Get list of example.
       tags:
-      - Products
+      - Examples
     post:
-      description: Create new product data.
+      description: Create new example data.
       parameters:
-      - description: Product request
+      - description: Example request
         in: body
         name: data
         required: true
         schema:
-          $ref: '#/definitions/dto.ProductRequest'
+          $ref: '#/definitions/dto.ExampleRequest'
       produces:
       - application/json
       responses:
@@ -87,20 +87,20 @@ paths:
             - $ref: '#/definitions/response.Response'
             - properties:
                 data:
-                  $ref: '#/definitions/dto.ProductResponse'
+                  $ref: '#/definitions/dto.ExampleResponse'
               type: object
         "500":
           description: internal error
           schema:
             $ref: '#/definitions/response.Response'
-      summary: Create new product data.
+      summary: Create new example data.
       tags:
-      - Products
-  /v1/product/{id}:
+      - Examples
+  /v1/example/{id}:
     delete:
-      description: Get single product.
+      description: Get single example.
       parameters:
-      - description: Product ID
+      - description: Example ID
         in: path
         name: id
         required: true
@@ -116,13 +116,13 @@ paths:
           description: internal error
           schema:
             $ref: '#/definitions/response.Response'
-      summary: Get single product.
+      summary: Get single example.
       tags:
-      - Products
+      - Examples
     get:
-      description: Get single product.
+      description: Get single example.
       parameters:
-      - description: Product ID
+      - description: Example ID
         in: path
         name: id
         required: true
@@ -137,24 +137,24 @@ paths:
             - $ref: '#/definitions/response.Response'
             - properties:
                 data:
-                  $ref: '#/definitions/dto.ProductResponse'
+                  $ref: '#/definitions/dto.ExampleResponse'
               type: object
         "500":
           description: internal error
           schema:
             $ref: '#/definitions/response.Response'
-      summary: Get single product.
+      summary: Get single example.
       tags:
-      - Products
+      - Examples
     patch:
-      description: Update existing product data
+      description: Update existing example data
       parameters:
-      - description: Product request
+      - description: Example request
         in: body
         name: data
         required: true
         schema:
-          $ref: '#/definitions/dto.ProductRequest'
+          $ref: '#/definitions/dto.ExampleRequest'
       produces:
       - application/json
       responses:
@@ -165,15 +165,15 @@ paths:
             - $ref: '#/definitions/response.Response'
             - properties:
                 data:
-                  $ref: '#/definitions/dto.ProductResponse'
+                  $ref: '#/definitions/dto.ExampleResponse'
               type: object
         "500":
           description: internal error
           schema:
             $ref: '#/definitions/response.Response'
-      summary: Update existing product data
+      summary: Update existing example data
       tags:
-      - Products
+      - Examples
 schemes:
 - https
 securityDefinitions:

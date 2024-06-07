@@ -29,7 +29,15 @@ Docs can be accessed in your `/swag/docs` endpoint by default
 - By default use gorm, so you can already use `postgre` , `mysql` or `sqlite` as DB_DRIVER
 - Default Basic Authentication for all endpoints can be defined from .env `BASIC_AUTH=yourusername:yourpassword` or set blank to disable authentication.
 - Default Basic Authentication for swagger can be defined from .env `SWAGGER_AUTH=yourswaggerusername:yourswaggerpassword` or set blank to disable authentication.
-- Application modules stored in `./src/modules/{package_name}`. (TODO : create command to dynamically autogenerate new module based on this structure)
+- Application modules stored in `./src/modules/{package_name}`.
+
+
+### Module Autogenerate
+- Run with bash script `bash module_generator.sh {modulename}` or run with make file : `make module name={modulename}`
+- Register the new module in routes : `./src/routes/routes.go` add module registration in Handler function : `modulename.NewModuleNameModuleRegistration(app, api)`
+- Optionally, register the entity migration or seeder to `./src/database` too (optional)
+- Module scaffold finish, you can start modify the module based on your needs
+
 
 
 ### Base Directory Structure
