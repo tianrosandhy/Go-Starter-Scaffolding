@@ -39,14 +39,12 @@ func main() {
 		app.Log.Println("Initiate gracefully shutdown with exit signal")
 		WaitTimeout(&wg, 10*time.Second)
 		app.Log.Println("Gracefully shutting down...")
-		_ = app.App.Shutdown()
+		_ = app.App.Close()
 	}()
 
 	routes.Handle(app)
 
-	if err := app.App.Listen(":" + app.Config.GetString("PORT")); err != nil {
-		app.Log.Panic(err)
-	}
+	app.Log.Fatal(app.App.Start(":" + app.Config.GetString("PORT")))
 }
 
 // WaitTimeout to wait with timeout

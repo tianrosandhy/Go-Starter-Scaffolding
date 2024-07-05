@@ -1,11 +1,12 @@
 package response
 
-import "github.com/gofiber/fiber/v2"
+import (
+	"github.com/labstack/echo/v4"
+)
 
 // OK is a helper function to return a JSON response with status code 200
 // param can be combination of nil, "message string, data", "data, message string", "data" only, or "message string" only
-func OK(c *fiber.Ctx, param ...interface{}) error {
-	c.Status(fiber.StatusOK)
+func OK(c echo.Context, param ...interface{}) error {
 	if len(param) > 0 {
 		message := "OK"
 		var data interface{}
@@ -24,14 +25,14 @@ func OK(c *fiber.Ctx, param ...interface{}) error {
 			data = param[0]
 		}
 
-		return c.JSON(Response{
+		return c.JSON(200, Response{
 			Type:    "success",
 			Message: message,
 			Data:    data,
 		})
 	}
 
-	return c.JSON(Response{
+	return c.JSON(200, Response{
 		Type:    "success",
 		Message: "OK",
 	})

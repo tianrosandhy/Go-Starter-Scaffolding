@@ -4,19 +4,21 @@ import (
 	"skeleton/bootstrap"
 	"skeleton/src/modules/example/handler"
 	"skeleton/src/modules/example/repository"
-
-	"github.com/gofiber/fiber/v2"
+	"skeleton/src/routes/middleware"
 )
 
-func NewExampleModuleRegistration(app *bootstrap.Application, route fiber.Router) {
+func NewExampleModuleRegistration(app *bootstrap.Application) {
 	// register repository & handler
 	exampleRepository := repository.NewExampleRepository(app)
 	exampleHandler := handler.NewExampleHandler(app, exampleRepository)
 
+	mid := middleware.NewMiddleware(app.Log, app.Config)
+	group := app.App.Group("/api/example", mid.BasicAuthentication)
+
 	// register routes to handlers
-	route.Get("/example", exampleHandler.GetExampleHandler)
-	route.Get("/example/:id", exampleHandler.GetSingleExampleHandler)
-	route.Post("/example", exampleHandler.PostCreateExample)
-	route.Patch("/example/:id", exampleHandler.PatchUpdateExample)
-	route.Delete("/example/:id", exampleHandler.DeleteSingleExample)
+	group.GET("/v1/lists", exampleHandler.ListsExample)
+	group.GET("/v1/detail/:id", exampleHandler.DetailExample)
+	group.POST("/v1/store", exampleHandler.StoreExample)
+	group.POST("/v1/update/:id", exampleHandler.UpdateExample)
+	group.POST("/v1/delete/:id", exampleHandler.DeleteExample)
 }

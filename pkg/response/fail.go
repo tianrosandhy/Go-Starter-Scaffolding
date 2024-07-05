@@ -2,13 +2,14 @@ package response
 
 import (
 	"fmt"
+	"net/http"
 	"regexp"
 	"strconv"
 	"strings"
 
 	"github.com/go-playground/validator/v10"
-	"github.com/gofiber/fiber/v2"
 	"github.com/iancoleman/strcase"
+	"github.com/labstack/echo/v4"
 )
 
 type ErrorData struct {
@@ -34,8 +35,7 @@ var validateMessages = map[string]string{
 
 // Fail is a helper function to return a JSON response with status code 200
 // param can be combination of nil, "message string, data", "data, message string", "data" only, or "message string" only
-func Fail(c *fiber.Ctx, httpCode int, param ...interface{}) error {
-	c.Status(httpCode)
+func Fail(c echo.Context, httpCode int, param ...interface{}) error {
 	if len(param) > 0 {
 		message := "Error"
 		var data interface{}
@@ -54,30 +54,30 @@ func Fail(c *fiber.Ctx, httpCode int, param ...interface{}) error {
 			data = param[0]
 		}
 
-		return c.JSON(Response{
+		return c.JSON(httpCode, Response{
 			Type:      "error",
 			Message:   message,
 			ErrorData: data,
 		})
 	}
 
-	return c.JSON(Response{
+	return c.JSON(httpCode, Response{
 		Type:    "error",
 		Message: "Something bad occured",
 	})
 }
 
-func ErrorMessage(c *fiber.Ctx, errorMessage string, httpCode ...int) error {
+func ErrorMessage(c echo.Context, errorMessage string, httpCode ...int) error {
 	if len(httpCode) == 0 {
-		httpCode = append(httpCode, fiber.StatusBadRequest)
+		httpCode = append(httpCode, http.StatusBadRequest)
 	}
 
 	return Fail(c, httpCode[0], errorMessage)
 }
 
-func Error(c *fiber.Ctx, err error, httpCode ...int) error {
+func Error(c echo.Context, err error, httpCode ...int) error {
 	if len(httpCode) == 0 {
-		httpCode = append(httpCode, fiber.StatusBadRequest)
+		httpCode = append(httpCode, http.StatusBadRequest)
 	}
 
 	message := "Something bad occured"

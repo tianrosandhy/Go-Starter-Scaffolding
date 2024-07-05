@@ -4,21 +4,21 @@ import (
 	"skeleton/pkg/response"
 	"strconv"
 
-	"github.com/gofiber/fiber/v2"
+	"github.com/labstack/echo/v4"
 )
 
-// DeleteSingleExample func
+// DeleteExample func
 // @securityDefinitions.basic BearerAuth
-// @Summary Get single example.
-// @Description Get single example.
+// @Summary Delete single example.
+// @Description Delete single example.
 // @Produce  application/json
 // @Param id path int true "Example ID"
 // @Success 200 {object} response.Response "success"
 // @Failure 500 {object} response.Response "internal error"
-// @Router /v1/example/{id} [delete]
+// @Router /api/example/v1/delete/{id} [post]
 // @Tags Examples
-func (p *ExampleHandler) DeleteSingleExample(c *fiber.Ctx) error {
-	exampleID, _ := strconv.Atoi(c.Params("id"))
+func (p *ExampleHandler) DeleteExample(c echo.Context) error {
+	exampleID, _ := strconv.Atoi(c.Param("id"))
 	example := p.ExampleRepository.GetByID(exampleID)
 	if example == nil {
 		return response.ErrorMessage(c, "Example not found", 404)

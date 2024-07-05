@@ -5,10 +5,10 @@ import (
 	"skeleton/src/modules/example/transformer"
 	"strconv"
 
-	"github.com/gofiber/fiber/v2"
+	"github.com/labstack/echo/v4"
 )
 
-// GetSingleExampleHandler func
+// DetailExample func
 // @securityDefinitions.basic BearerAuth
 // @Summary Get single example.
 // @Description Get single example.
@@ -16,10 +16,10 @@ import (
 // @Param id path int true "Example ID"
 // @Success 200 {object} response.Response{data=dto.ExampleResponse} "success"
 // @Failure 500 {object} response.Response "internal error"
-// @Router /v1/example/{id} [get]
+// @Router /api/example/v1/detail/{id} [get]
 // @Tags Examples
-func (p *ExampleHandler) GetSingleExampleHandler(c *fiber.Ctx) error {
-	exampleID, _ := strconv.Atoi(c.Params("id"))
+func (p *ExampleHandler) DetailExample(c echo.Context) error {
+	exampleID, _ := strconv.Atoi(c.Param("id"))
 	example := p.ExampleRepository.GetByID(exampleID)
 	if example == nil {
 		return response.ErrorMessage(c, "Example not found", 404)

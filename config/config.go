@@ -5,7 +5,6 @@ var Environment map[string]interface{} = map[string]interface{}{
 	// app config
 	"app_name":       "skeleton",
 	"port":           9000,
-	"endpoint":       "/api/v1",
 	"environment":    "development",
 	"tz":             "Asia/Jakarta",
 	"max_body_limit": 10, // in MB

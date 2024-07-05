@@ -5,7 +5,7 @@ import (
 
 	"github.com/go-playground/validator/v10"
 	"github.com/go-redis/redis"
-	"github.com/gofiber/fiber/v2"
+	"github.com/labstack/echo/v4"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
 	"gorm.io/gorm"
@@ -16,7 +16,7 @@ type Application struct {
 	Log       *logrus.Logger
 	Validator *validator.Validate
 	DB        *gorm.DB
-	App       *fiber.App
+	App       *echo.Echo
 	Redis     *redis.Client
 }
 
@@ -25,7 +25,7 @@ func NewApplication() *Application {
 	logger := NewLogger(config)
 	validator := NewValidator(config)
 	db := NewDatabase(config, logger)
-	app := NewFiber(config, logger)
+	app := NewEcho(config, logger)
 	redis := NewRedis(config)
 
 	application := Application{

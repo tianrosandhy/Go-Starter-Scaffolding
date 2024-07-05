@@ -26,6 +26,32 @@ definitions:
     - name
     - price
     type: object
+  dto.TestRequest:
+    properties:
+      name:
+        type: string
+      price:
+        type: number
+    required:
+    - name
+    - price
+    type: object
+  dto.TestResponse:
+    properties:
+      created_at:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      price:
+        type: number
+      updated_at:
+        type: string
+    required:
+    - name
+    - price
+    type: object
   response.Response:
     properties:
       data: {}
@@ -44,7 +70,58 @@ info:
   title: Skeleton Service
   version: 1.0.0
 paths:
-  /v1/example:
+  /api/example/v1/delete/{id}:
+    post:
+      description: Delete single example.
+      parameters:
+      - description: Example ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/response.Response'
+        "500":
+          description: internal error
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: Delete single example.
+      tags:
+      - Examples
+  /api/example/v1/detail/{id}:
+    get:
+      description: Get single example.
+      parameters:
+      - description: Example ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/dto.ExampleResponse'
+              type: object
+        "500":
+          description: internal error
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: Get single example.
+      tags:
+      - Examples
+  /api/example/v1/lists:
     get:
       description: Get list of example.
       produces:
@@ -68,8 +145,9 @@ paths:
       summary: Get list of example.
       tags:
       - Examples
+  /api/example/v1/store:
     post:
-      description: Create new example data.
+      description: Store new example data.
       parameters:
       - description: Example request
         in: body
@@ -93,60 +171,11 @@ paths:
           description: internal error
           schema:
             $ref: '#/definitions/response.Response'
-      summary: Create new example data.
+      summary: Store new example data.
       tags:
       - Examples
-  /v1/example/{id}:
-    delete:
-      description: Get single example.
-      parameters:
-      - description: Example ID
-        in: path
-        name: id
-        required: true
-        type: integer
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: success
-          schema:
-            $ref: '#/definitions/response.Response'
-        "500":
-          description: internal error
-          schema:
-            $ref: '#/definitions/response.Response'
-      summary: Get single example.
-      tags:
-      - Examples
-    get:
-      description: Get single example.
-      parameters:
-      - description: Example ID
-        in: path
-        name: id
-        required: true
-        type: integer
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: success
-          schema:
-            allOf:
-            - $ref: '#/definitions/response.Response'
-            - properties:
-                data:
-                  $ref: '#/definitions/dto.ExampleResponse'
-              type: object
-        "500":
-          description: internal error
-          schema:
-            $ref: '#/definitions/response.Response'
-      summary: Get single example.
-      tags:
-      - Examples
-    patch:
+  /api/example/v1/update/{id}:
+    post:
       description: Update existing example data
       parameters:
       - description: Example request
@@ -174,6 +203,139 @@ paths:
       summary: Update existing example data
       tags:
       - Examples
+  /api/test/v1/delete/{id}:
+    post:
+      description: Delete single test.
+      parameters:
+      - description: Test ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/response.Response'
+        "500":
+          description: internal error
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: Delete single test.
+      tags:
+      - Tests
+  /api/test/v1/detail/{id}:
+    get:
+      description: Get single test.
+      parameters:
+      - description: Test ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/dto.TestResponse'
+              type: object
+        "500":
+          description: internal error
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: Get single test.
+      tags:
+      - Tests
+  /api/test/v1/lists:
+    get:
+      description: Get list of test.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/dto.TestResponse'
+                  type: array
+              type: object
+        "500":
+          description: internal error
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: Get list of test.
+      tags:
+      - Tests
+  /api/test/v1/store:
+    post:
+      description: Store new test data.
+      parameters:
+      - description: Test request
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/dto.TestRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/dto.TestResponse'
+              type: object
+        "500":
+          description: internal error
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: Store new test data.
+      tags:
+      - Tests
+  /api/test/v1/update/{id}:
+    post:
+      description: Update existing test data
+      parameters:
+      - description: Test request
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/dto.TestRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/dto.TestResponse'
+              type: object
+        "500":
+          description: internal error
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: Update existing test data
+      tags:
+      - Tests
 schemes:
 - https
 securityDefinitions:

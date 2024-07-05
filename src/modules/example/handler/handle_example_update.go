@@ -6,10 +6,10 @@ import (
 	"skeleton/src/modules/example/transformer"
 	"strconv"
 
-	"github.com/gofiber/fiber/v2"
+	"github.com/labstack/echo/v4"
 )
 
-// PatchUpdateExample func
+// UpdateExample func
 // @securityDefinitions.basic BearerAuth
 // @Summary Update existing example data
 // @Description Update existing example data
@@ -17,11 +17,11 @@ import (
 // @Param data body dto.ExampleRequest true "Example request"
 // @Success 200 {object} response.Response{data=dto.ExampleResponse} "success"
 // @Failure 500 {object} response.Response "internal error"
-// @Router /v1/example/{id} [patch]
+// @Router /api/example/v1/update/{id} [post]
 // @Tags Examples
-func (p *ExampleHandler) PatchUpdateExample(c *fiber.Ctx) error {
+func (p *ExampleHandler) UpdateExample(c echo.Context) error {
 	request := dto.ExampleRequest{}
-	err := c.BodyParser(&request)
+	err := c.Bind(&request)
 	if err != nil {
 		return response.Error(c, err, 400)
 	}
@@ -30,7 +30,7 @@ func (p *ExampleHandler) PatchUpdateExample(c *fiber.Ctx) error {
 		return response.Error(c, err, 400)
 	}
 
-	exampleID, _ := strconv.Atoi(c.Params("id"))
+	exampleID, _ := strconv.Atoi(c.Param("id"))
 	example := p.ExampleRepository.GetByID(exampleID)
 	if example == nil {
 		return response.ErrorMessage(c, "Example not found", 404)
