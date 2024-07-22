@@ -80,14 +80,6 @@ func (r *RestClient) Execute() (httpBody string, httpStatus int) {
 	var restrequest []byte
 	restRequestID, _ := uuid.NewRandom()
 
-	dataType := fmt.Sprintf("%T", r.Request)
-
-	if strings.Contains(dataType, "string") && !strings.Contains(dataType, "map") {
-		restrequest = []byte(r.Request.(string))
-	} else {
-		restrequest, _ = json.Marshal(r.Request)
-	}
-
 	if len(r.Method) == 0 {
 		r.Method = "GET"
 	}
@@ -95,8 +87,29 @@ func (r *RestClient) Execute() (httpBody string, httpStatus int) {
 		r.Timeout = 15
 	}
 
-	// create request structure
-	req, _ := http.NewRequest(r.Method, r.URL, strings.NewReader(string(restrequest)))
+	var req *http.Request
+	var err error
+
+	switch request := r.Request.(type) {
+	case string:
+		restrequest = []byte(request)
+		req, err = http.NewRequest(r.Method, r.URL, strings.NewReader(string(restrequest)))
+	case []byte:
+		req, err = http.NewRequest(r.Method, r.URL, bytes.NewReader(request))
+	case *bytes.Buffer:
+		// log
+		req, err = http.NewRequest(r.Method, r.URL, request)
+	default:
+		restrequest, _ = json.Marshal(r.Request)
+		req, err = http.NewRequest(r.Method, r.URL, bytes.NewReader(restrequest))
+	}
+
+	if err != nil {
+		httpStatus = 0
+		httpBody = "Error creating request : " + err.Error()
+		r.Log.Printf("Error creating request : %s", err.Error())
+		return
+	}
 
 	for hname, hval := range r.Headers {
 		req.Header.Set(hname, hval)
