@@ -5,12 +5,13 @@ import (
 	"crypto/tls"
 	"encoding/json"
 	"fmt"
+	"log"
 	"net/http"
+	"os"
 	"strings"
 	"time"
 
 	"github.com/google/uuid"
-	"github.com/sirupsen/logrus"
 )
 
 type RestClient struct {
@@ -20,13 +21,17 @@ type RestClient struct {
 	Timeout int
 	Headers map[string]string
 	Request interface{}
-	Log     *logrus.Logger
+	Log     *log.Logger
 }
 
-func NewRestClient(log *logrus.Logger) *RestClient {
-	return &RestClient{
-		Log: log,
+func NewRestClient(logFile string) (*RestClient, error) {
+	file, err := os.OpenFile(logFile, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0666)
+	if err != nil {
+		return nil, err
 	}
+
+	logger := log.New(file, "", log.LstdFlags)
+	return &RestClient{Log: logger}, nil
 }
 
 func (r *RestClient) SetDebug(debug bool) *RestClient {

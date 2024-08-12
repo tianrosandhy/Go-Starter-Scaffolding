@@ -17,7 +17,7 @@ import (
 // @Router /api/example/v1/lists [get]
 // @Tags Examples
 func (p *ExampleHandler) ListsExample(c echo.Context) error {
-	examples := p.ExampleRepository.GetAll()
+	examples := p.ExampleRepository.GetAll(c)
 	exampleResponses := transformer.TransformBatchExample(examples)
 	return response.OK(c, "Get Example Lists", exampleResponses)
 }

@@ -49,7 +49,8 @@ var Environment map[string]interface{} = map[string]interface{}{
 	"db_log_not_found":      false,
 
 	// log config
-	"log_level":    "debug",
-	"log_max_size": 50,
-	"log_path":     "../../logs/app.log",
+	"log_level":             "debug",
+	"log_max_size":          50,
+	"log_path":              "../../logs/app.log",
+	"telegram_bot_log_path": "../../logs/telegram.log",
 }

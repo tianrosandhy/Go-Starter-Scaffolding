@@ -58,8 +58,11 @@ func (t *TeleLogger) PushString(stringData string) {
 			"&text=" + (stringData) +
 			"&parse_mode=html"
 
-		cli := rest.NewRestClient(t.Log).
-			SetURL(teleURL).
+		cli, err := rest.NewRestClient(t.Config.GetString("TELEGRAM_BOT_LOG_PATH"))
+		if err != nil {
+			t.Log.Fatal(err)
+		}
+		cli.SetURL(teleURL).
 			SetMethod("POST").
 			SetTimeout(5).
 			SetDebug(false).

@@ -6,60 +6,51 @@ import (
 	"skeleton/src/modules/example/dto"
 	"skeleton/src/modules/example/entity"
 
-	"github.com/go-redis/redis"
-	"github.com/sirupsen/logrus"
-	"github.com/spf13/viper"
-	"gorm.io/gorm"
+	"github.com/labstack/echo/v4"
 )
 
 type ExampleRepository struct {
-	DB     *gorm.DB
-	Redis  *redis.Client
-	Config *viper.Viper
-	Log    *logrus.Logger
+	App *bootstrap.Application
 }
 
 func NewExampleRepository(app *bootstrap.Application) *ExampleRepository {
 	return &ExampleRepository{
-		DB:     app.DB,
-		Redis:  app.Redis,
-		Config: app.Config,
-		Log:    app.Log,
+		App: app,
 	}
 }
 
-func (p *ExampleRepository) GetAll() []entity.Example {
+func (p *ExampleRepository) GetAll(c echo.Context) []entity.Example {
 	var examples []entity.Example
-	p.DB.Find(&examples)
+	p.App.DB.Find(&examples)
 	return examples
 }
 
-func (p *ExampleRepository) GetByID(id int) *entity.Example {
+func (p *ExampleRepository) GetByID(c echo.Context, id int) *entity.Example {
 	var example entity.Example
-	p.DB.First(&example, id)
+	p.App.DB.First(&example, id)
 	if example.ID == 0 {
 		return nil
 	}
 	return &example
 }
 
-func (p *ExampleRepository) Create(exampleRequest dto.ExampleRequest) (*entity.Example, error) {
+func (p *ExampleRepository) Create(c echo.Context, exampleRequest dto.ExampleRequest) (*entity.Example, error) {
 	example := entity.Example{}
 	merger.Merge(exampleRequest, &example)
 
-	err := p.DB.Create(&example).Error
+	err := p.App.DB.Create(&example).Error
 	if err != nil {
 		return nil, err
 	}
 	return &example, nil
 }
 
-func (p *ExampleRepository) Update(example entity.Example, exampleRequest dto.ExampleRequest) (*entity.Example, error) {
+func (p *ExampleRepository) Update(c echo.Context, example entity.Example, exampleRequest dto.ExampleRequest) (*entity.Example, error) {
 	id := example.ID
 	merger.Merge(exampleRequest, &example)
 	example.ID = id
 
-	err := p.DB.Save(&example).Error
+	err := p.App.DB.Save(&example).Error
 	if err != nil {
 		return nil, err
 	}
@@ -67,6 +58,6 @@ func (p *ExampleRepository) Update(example entity.Example, exampleRequest dto.Ex
 	return &example, nil
 }
 
-func (p *ExampleRepository) Delete(id int) error {
-	return p.DB.Delete(&entity.Example{}, id).Error
+func (p *ExampleRepository) Delete(c echo.Context, id int) error {
+	return p.App.DB.Delete(&entity.Example{}, id).Error
 }

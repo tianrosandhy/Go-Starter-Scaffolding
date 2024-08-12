@@ -20,7 +20,7 @@ import (
 // @Tags Examples
 func (p *ExampleHandler) DetailExample(c echo.Context) error {
 	exampleID, _ := strconv.Atoi(c.Param("id"))
-	example := p.ExampleRepository.GetByID(exampleID)
+	example := p.ExampleRepository.GetByID(c, exampleID)
 	if example == nil {
 		return response.ErrorMessage(c, "Example not found", 404)
 	}

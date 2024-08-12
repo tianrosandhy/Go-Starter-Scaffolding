@@ -19,12 +19,12 @@ import (
 // @Tags Examples
 func (p *ExampleHandler) DeleteExample(c echo.Context) error {
 	exampleID, _ := strconv.Atoi(c.Param("id"))
-	example := p.ExampleRepository.GetByID(exampleID)
+	example := p.ExampleRepository.GetByID(c, exampleID)
 	if example == nil {
 		return response.ErrorMessage(c, "Example not found", 404)
 	}
 
-	err := p.ExampleRepository.Delete(example.ID)
+	err := p.ExampleRepository.Delete(c, example.ID)
 	if err != nil {
 		return response.Error(c, err, 400)
 	}

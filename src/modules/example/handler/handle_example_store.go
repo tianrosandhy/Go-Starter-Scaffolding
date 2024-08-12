@@ -24,12 +24,12 @@ func (p *ExampleHandler) StoreExample(c echo.Context) error {
 	if err != nil {
 		return response.Error(c, err, 400)
 	}
-	err = p.Validator.Struct(&request)
+	err = p.App.Validator.Struct(&request)
 	if err != nil {
 		return response.Error(c, err, 400)
 	}
 
-	example, err := p.ExampleRepository.Create(request)
+	example, err := p.ExampleRepository.Create(c, request)
 	if err != nil {
 		return response.Error(c, err, 400)
 	}

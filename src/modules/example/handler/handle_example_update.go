@@ -25,18 +25,18 @@ func (p *ExampleHandler) UpdateExample(c echo.Context) error {
 	if err != nil {
 		return response.Error(c, err, 400)
 	}
-	err = p.Validator.Struct(&request)
+	err = p.App.Validator.Struct(&request)
 	if err != nil {
 		return response.Error(c, err, 400)
 	}
 
 	exampleID, _ := strconv.Atoi(c.Param("id"))
-	example := p.ExampleRepository.GetByID(exampleID)
+	example := p.ExampleRepository.GetByID(c, exampleID)
 	if example == nil {
 		return response.ErrorMessage(c, "Example not found", 404)
 	}
 
-	example, err = p.ExampleRepository.Update(*example, request)
+	example, err = p.ExampleRepository.Update(c, *example, request)
 	if err != nil {
 		return response.Error(c, err, 400)
 	}
