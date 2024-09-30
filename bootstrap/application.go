@@ -7,12 +7,12 @@ import (
 	"github.com/go-redis/redis"
 	"github.com/labstack/echo/v4"
 	"github.com/sirupsen/logrus"
-	"github.com/spf13/viper"
+	"github.com/tianrosandhy/goconfigloader"
 	"gorm.io/gorm"
 )
 
 type Application struct {
-	Config    *viper.Viper
+	Config    *goconfigloader.Config
 	Log       *logrus.Logger
 	Validator *validator.Validate
 	DB        *gorm.DB
@@ -21,7 +21,7 @@ type Application struct {
 }
 
 func NewApplication() *Application {
-	config := NewViperConfig(config.Environment)
+	config := NewConfigLoader(config.Environment)
 	logger := NewLogger(config)
 	validator := NewValidator(config)
 	db := NewDatabase(config, logger)

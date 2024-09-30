@@ -1,6 +1,6 @@
 module skeleton
 
-go 1.22.1
+go 1.23.0
 
 require (
 	github.com/go-openapi/strfmt v0.23.0
@@ -14,6 +14,7 @@ require (
 	github.com/spf13/viper v1.19.0
 	github.com/swaggo/echo-swagger v1.4.1
 	github.com/swaggo/swag v1.16.3
+	github.com/tianrosandhy/goconfigloader v0.0.0-20240918053005-3cd50d701d10
 	gopkg.in/natefinch/lumberjack.v2 v2.2.1
 	gorm.io/driver/mysql v1.5.6
 	gorm.io/driver/postgres v1.5.7

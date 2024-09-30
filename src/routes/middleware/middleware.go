@@ -2,17 +2,17 @@ package middleware
 
 import (
 	"github.com/sirupsen/logrus"
-	"github.com/spf13/viper"
+	"github.com/tianrosandhy/goconfigloader"
 )
 
 type Middleware struct {
 	Log    *logrus.Logger
-	Config *viper.Viper
+	Config *goconfigloader.Config
 }
 
-func NewMiddleware(logger *logrus.Logger, viperConfig *viper.Viper) *Middleware {
+func NewMiddleware(logger *logrus.Logger, cfg *goconfigloader.Config) *Middleware {
 	return &Middleware{
 		Log:    logger,
-		Config: viperConfig,
+		Config: cfg,
 	}
 }

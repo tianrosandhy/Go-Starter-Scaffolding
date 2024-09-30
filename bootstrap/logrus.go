@@ -6,7 +6,7 @@ import (
 	"strings"
 
 	"github.com/sirupsen/logrus"
-	"github.com/spf13/viper"
+	"github.com/tianrosandhy/goconfigloader"
 	"gopkg.in/natefinch/lumberjack.v2"
 )
 
@@ -22,10 +22,10 @@ var LOGRUS_LEVEL_MAP = map[string]logrus.Level{
 
 var FALLBACK_LOGRUS_LEVEL = "info"
 
-func NewLogger(viperConfig *viper.Viper) *logrus.Logger {
+func NewLogger(cfg *goconfigloader.Config) *logrus.Logger {
 	log := logrus.New()
 
-	level := viperConfig.GetString("LOG_LEVEL")
+	level := cfg.GetString("LOG_LEVEL")
 	if _, ok := LOGRUS_LEVEL_MAP[level]; !ok {
 		level = FALLBACK_LOGRUS_LEVEL
 	}
@@ -34,12 +34,12 @@ func NewLogger(viperConfig *viper.Viper) *logrus.Logger {
 	log.SetFormatter(&logrus.JSONFormatter{})
 	log.SetReportCaller(true)
 
-	logFilename := viperConfig.GetString("LOG_PATH")
+	logFilename := cfg.GetString("LOG_PATH")
 
 	if strings.Trim(logFilename, " \t\\/") != "" {
 		lumberjackLogger := lumberjack.Logger{
 			Filename:   logFilename,
-			MaxSize:    viperConfig.GetInt("LOG_MAX_SIZE"),
+			MaxSize:    cfg.GetInt("LOG_MAX_SIZE"),
 			MaxBackups: 8,
 			MaxAge:     60,
 			Compress:   true,

@@ -26,9 +26,6 @@ var builddate = "realtime"
 // @name Authorization
 func main() {
 	app := bootstrap.NewApplication()
-
-	app.Config.Set("APP_VERSION", version)
-	app.Config.Set("BUILDDATE", builddate)
 	app.Log.Infof("Running on version %s (build date %s)", version, builddate)
 
 	wg := sync.WaitGroup{}

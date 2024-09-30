@@ -9,6 +9,7 @@ import (
 
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
+	"github.com/tianrosandhy/goconfigloader"
 	"gorm.io/driver/mysql"
 	"gorm.io/driver/postgres"
 	"gorm.io/driver/sqlite"
@@ -19,13 +20,13 @@ import (
 )
 
 type Database struct {
-	Config *viper.Viper
+	Config *goconfigloader.Config
 	Logger *logrus.Logger
 }
 
-func NewDatabase(viperConfig *viper.Viper, logger *logrus.Logger) *gorm.DB {
+func NewDatabase(cfg *goconfigloader.Config, logger *logrus.Logger) *gorm.DB {
 	db := Database{
-		Config: viperConfig,
+		Config: cfg,
 		Logger: logger,
 	}
 
@@ -72,38 +73,38 @@ func (db *Database) Connect(mode ...string) *gorm.DB {
 	return tx
 }
 
-func dbDriverDialect(viperConfig *viper.Viper) gorm.Dialector {
-	tz := viperConfig.GetString("TZ")
+func dbDriverDialect(cfg *goconfigloader.Config) gorm.Dialector {
+	tz := cfg.GetString("TZ")
 	if len(tz) == 0 {
 		tz = "Asia/Jakarta"
 	}
 
 	mysqlDSN := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8mb4&parseTime=True",
-		viperConfig.GetString("DB_USER"),
-		viperConfig.GetString("DB_PASS"),
-		viperConfig.GetString("DB_HOST"),
-		viperConfig.GetString("DB_PORT"),
-		viperConfig.GetString("DB_NAME"),
+		cfg.GetString("DB_USER"),
+		cfg.GetString("DB_PASS"),
+		cfg.GetString("DB_HOST"),
+		cfg.GetString("DB_PORT"),
+		cfg.GetString("DB_NAME"),
 	) + "&loc=" + strings.ReplaceAll(tz, "/", "%2F")
 
 	postgresDSN := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable TimeZone=%s application_name=%s connect_timeout=%d",
-		viperConfig.GetString("DB_HOST"),
-		viperConfig.GetString("DB_PORT"),
-		viperConfig.GetString("DB_USER"),
-		viperConfig.GetString("DB_PASS"),
-		viperConfig.GetString("DB_NAME"),
+		cfg.GetString("DB_HOST"),
+		cfg.GetString("DB_PORT"),
+		cfg.GetString("DB_USER"),
+		cfg.GetString("DB_PASS"),
+		cfg.GetString("DB_NAME"),
 		tz,
-		strings.ToLower(regexp.MustCompile(`[^A-z0-9-]`).ReplaceAllString(viperConfig.GetString("APP_NAME"), "-")),
-		viperConfig.GetInt("DB_CONNECTION_TIMEOUT"),
+		strings.ToLower(regexp.MustCompile(`[^A-z0-9-]`).ReplaceAllString(cfg.GetString("APP_NAME"), "-")),
+		cfg.GetInt("DB_CONNECTION_TIMEOUT"),
 	)
 
 	sqliteDSN := "file::memory:?cache=shared"
-	sqlitePath := viperConfig.GetString("DB_SQLITE_PATH")
+	sqlitePath := cfg.GetString("DB_SQLITE_PATH")
 	if sqlitePath != "" {
 		sqliteDSN = fmt.Sprintf("%s?cache=shared", sqlitePath)
 	}
 
-	switch viperConfig.GetString("DB_DRIVER") {
+	switch cfg.GetString("DB_DRIVER") {
 	case "mysql":
 		return mysql.Open(mysqlDSN)
 	case "postgres":
