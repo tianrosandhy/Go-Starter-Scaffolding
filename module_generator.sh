@@ -31,8 +31,16 @@ process_item() {
         local newname=${item/example/$camelCaseModuleName}
         mv "$item" "$newname"
 
-        sed -i "s/example/$camelCaseModuleName/g" "$newname"
-        sed -i "s/Example/$(echo $moduleName | awk '{printf "%s", toupper(substr($1,1,1)) substr($1,2)}')/g" "$newname"
+        # Use compatible sed for both macOS and Linux
+        if [[ "$OSTYPE" == "darwin"* ]]; then
+            # For macOS, use sed with an empty backup extension
+            sed -i '' "s/example/$camelCaseModuleName/g" "$newname"
+            sed -i '' "s/Example/$(echo $moduleName | awk '{printf "%s", toupper(substr($1,1,1)) substr($1,2)}')/g" "$newname"
+        else
+            # For Linux (Ubuntu), normal sed usage
+            sed -i "s/example/$camelCaseModuleName/g" "$newname"
+            sed -i "s/Example/$(echo $moduleName | awk '{printf "%s", toupper(substr($1,1,1)) substr($1,2)}')/g" "$newname"
+        fi
     fi
 }
 
