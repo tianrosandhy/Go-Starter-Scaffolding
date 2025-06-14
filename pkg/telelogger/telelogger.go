@@ -7,7 +7,7 @@ import (
 	"strings"
 
 	"github.com/sirupsen/logrus"
-	"github.com/spf13/viper"
+	"github.com/tianrosandhy/goconfigloader"
 )
 
 var ERROR_WHITELIST = []string{
@@ -15,14 +15,14 @@ var ERROR_WHITELIST = []string{
 }
 
 type TeleLogger struct {
-	Config *viper.Viper
+	Config *goconfigloader.Config
 	Log    *logrus.Logger
 }
 
-func NewTeleLogger(logger *logrus.Logger, viperConfig *viper.Viper) *TeleLogger {
+func NewTeleLogger(logger *logrus.Logger, cfg *goconfigloader.Config) *TeleLogger {
 	return &TeleLogger{
 		Log:    logger,
-		Config: viperConfig,
+		Config: cfg,
 	}
 }
 

@@ -7,7 +7,6 @@ import (
 
 	"github.com/glebarez/sqlite"
 	"github.com/sirupsen/logrus"
-	"github.com/spf13/viper"
 	"github.com/tianrosandhy/goconfigloader"
 
 	// "gorm.io/driver/mysql"
@@ -63,10 +62,10 @@ func (db *Database) Connect(mode ...string) *gorm.DB {
 
 	if nil != db {
 		sqlDB, _ := tx.DB()
-		sqlDB.SetMaxOpenConns(viper.GetInt("DB_MAX_OPEN_CONNS"))
-		sqlDB.SetMaxIdleConns(viper.GetInt("DB_MAX_IDLE_CONNS"))
-		sqlDB.SetConnMaxIdleTime(time.Second * time.Duration(viper.GetInt("DB_MAX_IDLE_TIME")))
-		sqlDB.SetConnMaxLifetime(time.Second * time.Duration(viper.GetInt("DB_MAX_LIFE_TIME")))
+		sqlDB.SetMaxOpenConns(db.Config.GetInt("DB_MAX_OPEN_CONNS"))
+		sqlDB.SetMaxIdleConns(db.Config.GetInt("DB_MAX_IDLE_CONNS"))
+		sqlDB.SetConnMaxIdleTime(time.Second * time.Duration(db.Config.GetInt("DB_MAX_IDLE_TIME")))
+		sqlDB.SetConnMaxLifetime(time.Second * time.Duration(db.Config.GetInt("DB_MAX_LIFE_TIME")))
 	}
 
 	return tx
