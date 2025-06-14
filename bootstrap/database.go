@@ -2,17 +2,16 @@ package bootstrap
 
 import (
 	"fmt"
-	"regexp"
 	"skeleton/src/database"
-	"strings"
 	"time"
 
+	"github.com/glebarez/sqlite"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
 	"github.com/tianrosandhy/goconfigloader"
-	"gorm.io/driver/mysql"
-	"gorm.io/driver/postgres"
-	"gorm.io/driver/sqlite"
+
+	// "gorm.io/driver/mysql"
+	// "gorm.io/driver/postgres"
 	"gorm.io/gorm"
 	"gorm.io/gorm/clause"
 	"gorm.io/gorm/logger"
@@ -79,24 +78,24 @@ func dbDriverDialect(cfg *goconfigloader.Config) gorm.Dialector {
 		tz = "Asia/Jakarta"
 	}
 
-	mysqlDSN := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8mb4&parseTime=True",
-		cfg.GetString("DB_USER"),
-		cfg.GetString("DB_PASS"),
-		cfg.GetString("DB_HOST"),
-		cfg.GetString("DB_PORT"),
-		cfg.GetString("DB_NAME"),
-	) + "&loc=" + strings.ReplaceAll(tz, "/", "%2F")
+	// mysqlDSN := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8mb4&parseTime=True",
+	// 	cfg.GetString("DB_USER"),
+	// 	cfg.GetString("DB_PASS"),
+	// 	cfg.GetString("DB_HOST"),
+	// 	cfg.GetString("DB_PORT"),
+	// 	cfg.GetString("DB_NAME"),
+	// ) + "&loc=" + strings.ReplaceAll(tz, "/", "%2F")
 
-	postgresDSN := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable TimeZone=%s application_name=%s connect_timeout=%d",
-		cfg.GetString("DB_HOST"),
-		cfg.GetString("DB_PORT"),
-		cfg.GetString("DB_USER"),
-		cfg.GetString("DB_PASS"),
-		cfg.GetString("DB_NAME"),
-		tz,
-		strings.ToLower(regexp.MustCompile(`[^A-z0-9-]`).ReplaceAllString(cfg.GetString("APP_NAME"), "-")),
-		cfg.GetInt("DB_CONNECTION_TIMEOUT"),
-	)
+	// postgresDSN := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable TimeZone=%s application_name=%s connect_timeout=%d",
+	// 	cfg.GetString("DB_HOST"),
+	// 	cfg.GetString("DB_PORT"),
+	// 	cfg.GetString("DB_USER"),
+	// 	cfg.GetString("DB_PASS"),
+	// 	cfg.GetString("DB_NAME"),
+	// 	tz,
+	// 	strings.ToLower(regexp.MustCompile(`[^A-z0-9-]`).ReplaceAllString(cfg.GetString("APP_NAME"), "-")),
+	// 	cfg.GetInt("DB_CONNECTION_TIMEOUT"),
+	// )
 
 	sqliteDSN := "file::memory:?cache=shared"
 	sqlitePath := cfg.GetString("DB_SQLITE_PATH")
@@ -104,17 +103,16 @@ func dbDriverDialect(cfg *goconfigloader.Config) gorm.Dialector {
 		sqliteDSN = fmt.Sprintf("%s?cache=shared", sqlitePath)
 	}
 
-	switch cfg.GetString("DB_DRIVER") {
-	case "mysql":
-		return mysql.Open(mysqlDSN)
-	case "postgres":
-		return postgres.Open(postgresDSN)
-	case "sqlite":
-		return sqlite.Open(sqliteDSN)
-	}
+	// switch cfg.GetString("DB_DRIVER") {
+	// case "mysql":
+	// 	return mysql.Open(mysqlDSN)
+	// case "postgres":
+	// 	return postgres.Open(postgresDSN)
+	// case "sqlite":
+	// 	return sqlite.Open(sqliteDSN)
+	// }
 
-	// fallback
-	return mysql.Open(mysqlDSN)
+	return sqlite.Open(sqliteDSN)
 }
 
 func (db *Database) Migrate() {

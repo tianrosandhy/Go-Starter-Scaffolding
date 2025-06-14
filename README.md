@@ -3,7 +3,7 @@
 This is a general basic golang scaffolding as starter project.
 
 ### Requirement
-- Go 1.22
+- Go 1.23
 
 ### Installation
 ```
@@ -25,19 +25,11 @@ Docs can be accessed in your `/swag/docs` endpoint by default
 
 
 ### Notes 
-- Port & Endpoint are defined in config. For example if you setup the port=9000 and endpoint="/api/v1", then your Base URL will be : http://localhost:9000/api/v1
+- Port & Endpoint are defined in config. For example if you setup the port=9009 and endpoint="/api/v1", then your Base URL will be : http://localhost:9009/api/v1
 - By default use gorm, so you can already use `postgre` , `mysql` or `sqlite` as DB_DRIVER
 - Default Basic Authentication for all endpoints can be defined from .env `BASIC_AUTH=yourusername:yourpassword` or set blank to disable authentication.
 - Default Basic Authentication for swagger can be defined from .env `SWAGGER_AUTH=yourswaggerusername:yourswaggerpassword` or set blank to disable authentication.
 - Application modules stored in `./src/modules/{package_name}`.
-
-
-### Module Autogenerate
-- Run with bash script `bash module_generator.sh {modulename}` or run with make file : `make module name={modulename}`
-- Register the new module in routes : `./src/routes/routes.go` add module registration in Handler function : `modulename.NewModuleNameModuleRegistration(app, api)`
-- Optionally, register the entity migration or seeder to `./src/database` too (optional)
-- Module scaffold finish, you can start modify the module based on your needs
-
 
 
 ### Base Directory Structure

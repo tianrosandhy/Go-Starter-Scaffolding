@@ -1,18 +1,9 @@
-basePath: /api/v1
+basePath: /
 definitions:
-  dto.ExampleRequest:
-    properties:
-      name:
-        type: string
-      price:
-        type: number
-    required:
-    - name
-    - price
-    type: object
   dto.ExampleResponse:
     properties:
       created_at:
+        format: date-time
         type: string
       id:
         type: integer
@@ -21,6 +12,7 @@ definitions:
       price:
         type: number
       updated_at:
+        format: date-time
         type: string
     required:
     - name
@@ -35,47 +27,18 @@ definitions:
       type:
         type: string
     type: object
-host: localhost
+host: localhost:9009
 info:
   contact:
     email: tianrosandhy@gmail.com
     name: TianRosandhy
-  description: Skeleton Service
-  title: Skeleton Service
+  description: Chatbot Expense
+  title: Chatbot Expense
   version: 1.0.0
 paths:
-  /api/example/v1/delete/{id}:
-    post:
-      description: Delete single example.
-      parameters:
-      - description: Example ID
-        in: path
-        name: id
-        required: true
-        type: integer
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: success
-          schema:
-            $ref: '#/definitions/response.Response'
-        "500":
-          description: internal error
-          schema:
-            $ref: '#/definitions/response.Response'
-      summary: Delete single example.
-      tags:
-      - Examples
-  /api/example/v1/detail/{id}:
+  /api/v1/example:
     get:
-      description: Get single example.
-      parameters:
-      - description: Example ID
-        in: path
-        name: id
-        required: true
-        type: integer
+      description: Example of single handler / controller.
       produces:
       - application/json
       responses:
@@ -92,96 +55,9 @@ paths:
           description: internal error
           schema:
             $ref: '#/definitions/response.Response'
-      summary: Get single example.
-      tags:
-      - Examples
-  /api/example/v1/lists:
-    get:
-      description: Get list of example.
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: success
-          schema:
-            allOf:
-            - $ref: '#/definitions/response.Response'
-            - properties:
-                data:
-                  items:
-                    $ref: '#/definitions/dto.ExampleResponse'
-                  type: array
-              type: object
-        "500":
-          description: internal error
-          schema:
-            $ref: '#/definitions/response.Response'
-      summary: Get list of example.
-      tags:
-      - Examples
-  /api/example/v1/store:
-    post:
-      description: Store new example data.
-      parameters:
-      - description: Example request
-        in: body
-        name: data
-        required: true
-        schema:
-          $ref: '#/definitions/dto.ExampleRequest'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: success
-          schema:
-            allOf:
-            - $ref: '#/definitions/response.Response'
-            - properties:
-                data:
-                  $ref: '#/definitions/dto.ExampleResponse'
-              type: object
-        "500":
-          description: internal error
-          schema:
-            $ref: '#/definitions/response.Response'
-      summary: Store new example data.
-      tags:
-      - Examples
-  /api/example/v1/update/{id}:
-    post:
-      description: Update existing example data
-      parameters:
-      - description: Example request
-        in: body
-        name: data
-        required: true
-        schema:
-          $ref: '#/definitions/dto.ExampleRequest'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: success
-          schema:
-            allOf:
-            - $ref: '#/definitions/response.Response'
-            - properties:
-                data:
-                  $ref: '#/definitions/dto.ExampleResponse'
-              type: object
-        "500":
-          description: internal error
-          schema:
-            $ref: '#/definitions/response.Response'
-      summary: Update existing example data
+      summary: Example of single handler / controller.
       tags:
       - Examples
 schemes:
-- https
-securityDefinitions:
-  ApiKeyAuth:
-    in: header
-    name: Authorization
-    type: apiKey
+- http
 swagger: "2.0"

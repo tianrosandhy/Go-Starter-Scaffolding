@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  skeleton:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: skeleton
+    ports:
+      - "9009:9009"
+    environment:
+      - PORT=9009
+      - DB_DRIVER=sqlite
+    restart: unless-stopped

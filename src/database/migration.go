@@ -1,7 +1,7 @@
 package database
 
 import (
-	exampleEntity "skeleton/src/modules/example/entity"
+	exampleEntity "skeleton/src/entity"
 )
 
 var EntityMigrations []interface{} = []interface{}{

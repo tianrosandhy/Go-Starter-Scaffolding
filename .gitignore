@@ -8,6 +8,6 @@
 !.gitignore
 !go.mod
 !main.go
-!Makefile
 !README.md
-!module_generator.sh
+!Dockerfile
+!docker-compose.yml

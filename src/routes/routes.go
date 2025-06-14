@@ -3,8 +3,7 @@ package routes
 import (
 	"skeleton/bootstrap"
 	"skeleton/pkg/response"
-	"skeleton/src/modules/example"
-	"skeleton/src/routes/middleware"
+	"skeleton/src/handler"
 
 	"github.com/labstack/echo/v4"
 	echoSwagger "github.com/swaggo/echo-swagger"
@@ -22,9 +21,11 @@ func Handle(app *bootstrap.Application) {
 	})
 
 	// show swagger docs
-	mw := middleware.NewMiddleware(app.Log, app.Config)
-	app.App.GET("/swagger/*", echoSwagger.WrapHandler, mw.SwaggerMiddleware)
+	app.App.GET("/swagger/*", echoSwagger.WrapHandler)
 
-	// Register module handlers
-	example.NewExampleModuleRegistration(app)
+	// handler routes
+	apiGroup := app.App.Group("/api/v1")
+	handlers := handler.NewHandler(app)
+
+	apiGroup.GET("/example", handlers.Example)
 }

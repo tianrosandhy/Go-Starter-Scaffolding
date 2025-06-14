@@ -1,213 +1,30 @@
 {
     "schemes": [
-        "https"
+        "http"
     ],
     "swagger": "2.0",
     "info": {
-        "description": "Skeleton Service",
-        "title": "Skeleton Service",
+        "description": "Chatbot Expense",
+        "title": "Chatbot Expense",
         "contact": {
             "name": "TianRosandhy",
             "email": "tianrosandhy@gmail.com"
         },
         "version": "1.0.0"
     },
-    "host": "localhost",
-    "basePath": "/api/v1",
+    "host": "localhost:9009",
+    "basePath": "/",
     "paths": {
-        "/api/example/v1/delete/{id}": {
-            "post": {
-                "description": "Delete single example.",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Examples"
-                ],
-                "summary": "Delete single example.",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "Example ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "success",
-                        "schema": {
-                            "$ref": "#/definitions/response.Response"
-                        }
-                    },
-                    "500": {
-                        "description": "internal error",
-                        "schema": {
-                            "$ref": "#/definitions/response.Response"
-                        }
-                    }
-                }
-            }
-        },
-        "/api/example/v1/detail/{id}": {
+        "/api/v1/example": {
             "get": {
-                "description": "Get single example.",
+                "description": "Example of single handler / controller.",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
                     "Examples"
                 ],
-                "summary": "Get single example.",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "Example ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "success",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/response.Response"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "$ref": "#/definitions/dto.ExampleResponse"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "500": {
-                        "description": "internal error",
-                        "schema": {
-                            "$ref": "#/definitions/response.Response"
-                        }
-                    }
-                }
-            }
-        },
-        "/api/example/v1/lists": {
-            "get": {
-                "description": "Get list of example.",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Examples"
-                ],
-                "summary": "Get list of example.",
-                "responses": {
-                    "200": {
-                        "description": "success",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/response.Response"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "type": "array",
-                                            "items": {
-                                                "$ref": "#/definitions/dto.ExampleResponse"
-                                            }
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "500": {
-                        "description": "internal error",
-                        "schema": {
-                            "$ref": "#/definitions/response.Response"
-                        }
-                    }
-                }
-            }
-        },
-        "/api/example/v1/store": {
-            "post": {
-                "description": "Store new example data.",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Examples"
-                ],
-                "summary": "Store new example data.",
-                "parameters": [
-                    {
-                        "description": "Example request",
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/dto.ExampleRequest"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "success",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/response.Response"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "$ref": "#/definitions/dto.ExampleResponse"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "500": {
-                        "description": "internal error",
-                        "schema": {
-                            "$ref": "#/definitions/response.Response"
-                        }
-                    }
-                }
-            }
-        },
-        "/api/example/v1/update/{id}": {
-            "post": {
-                "description": "Update existing example data",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Examples"
-                ],
-                "summary": "Update existing example data",
-                "parameters": [
-                    {
-                        "description": "Example request",
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/dto.ExampleRequest"
-                        }
-                    }
-                ],
+                "summary": "Example of single handler / controller.",
                 "responses": {
                     "200": {
                         "description": "success",
@@ -238,21 +55,6 @@
         }
     },
     "definitions": {
-        "dto.ExampleRequest": {
-            "type": "object",
-            "required": [
-                "name",
-                "price"
-            ],
-            "properties": {
-                "name": {
-                    "type": "string"
-                },
-                "price": {
-                    "type": "number"
-                }
-            }
-        },
         "dto.ExampleResponse": {
             "type": "object",
             "required": [
@@ -261,7 +63,8 @@
             ],
             "properties": {
                 "created_at": {
-                    "type": "string"
+                    "type": "string",
+                    "format": "date-time"
                 },
                 "id": {
                     "type": "integer"
@@ -273,7 +76,8 @@
                     "type": "number"
                 },
                 "updated_at": {
-                    "type": "string"
+                    "type": "string",
+                    "format": "date-time"
                 }
             }
         },
@@ -289,13 +93,6 @@
                     "type": "string"
                 }
             }
-        }
-    },
-    "securityDefinitions": {
-        "ApiKeyAuth": {
-            "type": "apiKey",
-            "name": "Authorization",
-            "in": "header"
         }
     }
 }

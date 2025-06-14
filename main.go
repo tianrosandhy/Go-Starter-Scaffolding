@@ -13,17 +13,14 @@ import (
 var version = "dev"
 var builddate = "realtime"
 
-// @title Skeleton Service
+// @title Skeleton
 // @version 1.0.0
-// @description Skeleton Service
+// @description Skeleton
 // @contact.name TianRosandhy
 // @contact.email tianrosandhy@gmail.com
-// @host localhost
-// @schemes https
-// @BasePath /api/v1
-// @securityDefinitions.apikey ApiKeyAuth
-// @in header
-// @name Authorization
+// @host localhost:9009
+// @schemes http
+// @BasePath /
 func main() {
 	app := bootstrap.NewApplication()
 	app.Log.Infof("Running on version %s (build date %s)", version, builddate)
