@@ -4,6 +4,7 @@ package config
 var Environment map[string]string = map[string]string{
 	// app config
 	"APP_NAME":       "skeleton",
+	"APP_HOST":       "localhost:9009",
 	"PORT":           "9009",
 	"ENVIRONMENT":    "development",
 	"TZ":             "Asia/Jakarta",

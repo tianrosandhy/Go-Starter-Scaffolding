@@ -4,6 +4,7 @@ import (
 	"os"
 	"os/signal"
 	"skeleton/bootstrap"
+	"skeleton/docs"
 	"skeleton/src/routes"
 	"sync"
 	"syscall"
@@ -36,6 +37,7 @@ func main() {
 		_ = app.App.Close()
 	}()
 
+	docs.InitSwaggerHost(app)
 	routes.Handle(app)
 
 	app.Log.Fatal(app.App.Start(":" + app.Config.GetString("PORT")))

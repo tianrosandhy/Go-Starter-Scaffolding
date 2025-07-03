@@ -6,12 +6,12 @@ import (
 	"skeleton/src/handler"
 
 	"github.com/labstack/echo/v4"
-	echoSwagger "github.com/swaggo/echo-swagger"
-
-	_ "skeleton/docs"
+	"github.com/labstack/echo/v4/middleware"
 )
 
 func Handle(app *bootstrap.Application) {
+	app.App.Use(middleware.CORS())
+
 	// Register global routes
 	app.App.GET("/", func(c echo.Context) error {
 		return response.OK(c)
@@ -19,9 +19,6 @@ func Handle(app *bootstrap.Application) {
 	app.App.GET("/ping", func(c echo.Context) error {
 		return response.OK(c, "PONG")
 	})
-
-	// show swagger docs
-	app.App.GET("/swagger/*", echoSwagger.WrapHandler)
 
 	// handler routes
 	apiGroup := app.App.Group("/api/v1")
